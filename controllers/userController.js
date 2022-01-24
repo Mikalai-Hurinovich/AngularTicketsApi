@@ -17,6 +17,7 @@ exports.updateUser = function (req, res) {
 
 exports.createUser = function (req, res) {
     const newUser = req.body;
+    console.log(newUser)
     newUser.id = nextId;
     nextId++;
     users.push(newUser);
