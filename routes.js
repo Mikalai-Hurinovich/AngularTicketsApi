@@ -13,7 +13,8 @@ module.exports = function (app) {
     app.post('/api/login', auth.authenticate);
     app.post('/api/logout', auth.logOut);
     app.get('/api/currentIdentity', auth.getCurrentIdentity);
-    app.post('/api/token', auth.isTokenActive);
+    app.get('/api/token', auth.isTokenActive);
+    app.get('/api/admin', auth.isAdmin);
     app.get('/api/users', users.getUsers);
     app.post('/api/register', users.createUser);
     app.put('/api/users/:id', users.updateUser);

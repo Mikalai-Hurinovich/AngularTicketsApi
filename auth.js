@@ -14,6 +14,7 @@ exports.authenticate = function (req, res, next) {
 
         const token = jwt.sign({
             _id: user.id,
+            isAdmin: user.isAdmin
         }, 'secret', {
             expiresIn: "1d"
         })
@@ -55,12 +56,24 @@ exports.logOut = function (req, res) {
 }
 
 exports.isTokenActive = function (req, res) {
-    jwt.verify(req.body.token, 'secret', (err) => {
+    jwt.verify(req.headers.token, 'secret', (err) => {
         if (err) {
-            res.send({error: err.name, isActive: false})
+            res.send(false)
             res.end();
         } else {
-            res.send({isActive: true})
+            res.send(true)
+            res.end();
+        }
+    })
+}
+
+exports.isAdmin = function (req, res) {
+    jwt.verify(req.headers.token, 'secret', (err, decoded) => {
+        if (decoded && decoded.isAdmin) {
+            res.send(true)
+            res.end();
+        } else {
+            res.send(false)
             res.end();
         }
     })
