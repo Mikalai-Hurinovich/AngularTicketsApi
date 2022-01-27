@@ -19,11 +19,9 @@ exports.authenticate = function (req, res, next) {
         }, 'secret', {
             expiresIn: "1d"
         })
-        console.log(user)
 
             req.logIn(user, function (err) {
                 if (err) {
-                    console.log(err)
                     res.status(403).send('Something go wrong...');
                     res.end();
                 } else {
