@@ -1,6 +1,7 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const users = require('./database/users');
+const localStrategy = require('passport-local');
 
 exports.authenticate = function (req, res, next) {
     req.body.username = req.body.username.toLowerCase();
@@ -18,19 +19,25 @@ exports.authenticate = function (req, res, next) {
         }, 'secret', {
             expiresIn: "1d"
         })
+        console.log(user)
 
-        res.cookie('jwt', token, {
-            httpOnly: true,
-        })
+            req.logIn(user, function (err) {
+                if (err) {
+                    console.log(err)
+                    res.status(403).send('Something go wrong...');
+                    res.end();
+                } else {
+                    res.cookie('jwt', token, {
+                        httpOnly: true,
+                    })
 
-        req.logIn(user, function (err) {
-            if (err) {
-                return next(err);
-            }
+                    const {userPassword, ...data} = user;
 
-            res.send({success: true, user, token});
-        })
+                    res.send({success: true, user: data, token});
+                }
+            })
     })
+
     auth(req, res, next);
 };
 

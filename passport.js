@@ -7,7 +7,7 @@ module.exports = function() {
   passport.use(new LocalStrategy(
     function(username, password, done) {
       const found = users.find(user => {
-        return user.userName.toLowerCase() === username;
+        return user.userName.toLowerCase() === username && user.userPassword === password;
       })
       if(found) {
         return done(null, found);  
