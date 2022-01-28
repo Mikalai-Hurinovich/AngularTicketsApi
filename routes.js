@@ -11,9 +11,12 @@ const fs = require('fs');
 
 module.exports = function (app) {
     app.post('/api/login', auth.authenticate);
+    app.post('/api/logout', auth.logOut);
     app.get('/api/currentIdentity', auth.getCurrentIdentity);
+    app.get('/api/token', auth.isTokenActive);
+    app.get('/api/admin', auth.isAdmin);
     app.get('/api/users', users.getUsers);
-    app.post('/api/users/new', users.createUser);
+    app.post('/api/register', users.createUser);
     app.put('/api/users/:id', users.updateUser);
     app.get('/api/user/:id', users.getUser);
 
@@ -31,10 +34,6 @@ module.exports = function (app) {
     app.get('/api/halls', halls.getHalls)
     app.get('/api/halls/:id', halls.getHallByCinemaId)
 
-    app.post('/api/logout', function (req, res) {
-        req.logout();
-        res.end();
-    });
 
     app.get('/app/*', function (req, res) {
         res.sendStatus(404);

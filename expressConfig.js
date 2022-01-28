@@ -4,12 +4,12 @@ const express = require('express'),
     cookieParser = require('cookie-parser'),
     passport = require('passport'),
     session = require('express-session'),
+    cors = require('cors'),
     path = require('path');
 
 const rootPath = path.normalize(__dirname + '/../../');
 
 module.exports = function(app) {
-  // app.use(logger('tiny'));
   app.use(cookieParser());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,6 +20,10 @@ module.exports = function(app) {
   }));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(cors({
+    credentials: true,
+    origin: ['http://localhost:4200']
+  }))
   
   app.use(express.static(rootPath));
 }
