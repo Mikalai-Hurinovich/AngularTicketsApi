@@ -4,7 +4,7 @@ const users = require('./database/users');
 const localStrategy = require('passport-local');
 
 exports.authenticate = function (req, res, next) {
-    req.body.username = req.body.username.toLowerCase();
+    req.body.username = req.body.userName.toLowerCase();
     const auth = passport.authenticate('local', function (err, user) {
         if (err) {
             return next(err);
@@ -30,7 +30,6 @@ exports.authenticate = function (req, res, next) {
                     })
 
                     const {userPassword, ...data} = user;
-
                     res.send({success: true, user: data, token});
                 }
             })
