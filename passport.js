@@ -5,9 +5,9 @@ const passport = require('passport'),
   
 module.exports = function() {
   passport.use(new LocalStrategy(
-    function(username, password, done) {
+    function(userName, userPassword, done) {
       const found = users.find(user => {
-        return user.userName.toLowerCase() === username && user.userPassword === password;
+        return user.userName.toLowerCase() === userName && user.userPassword === userPassword;
       })
       if(found) {
         return done(null, found);  
